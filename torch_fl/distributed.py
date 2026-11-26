@@ -40,6 +40,21 @@ After those two registrations, **standard PyTorch distributed APIs work as-is**:
 
     model = DistributedDataParallel(model)   # standard DDP, no wrapper needed
 
+DTensor — and therefore Tensor Parallel (TP) and FSDP2 (``fully_shard``) — works
+over the same backend. ``ProcessGroupFlagOS`` implements the coalesced
+collectives DTensor's functional path needs, and registers the ``group_name``
+that ``DeviceMesh`` reads:
+
+    from torch.distributed.device_mesh import init_device_mesh
+    from torch.distributed.tensor import Shard, distribute_tensor
+
+    mesh = init_device_mesh("flagos", (world_size,))
+    shard = distribute_tensor(tensor, mesh, [Shard(0)])
+    full = shard.full_tensor()                 # all-gather over "flagos"
+
+    from torch.distributed.fsdp import fully_shard
+    fully_shard(model, mesh=mesh)              # FSDP2 (DTensor-based)
+
 This module is kept for backward compatibility and convenience utilities.
 ``init_process_group`` is a thin alias; ``DistributedDataParallel`` is
 deprecated in favour of the standard class.

@@ -62,7 +62,7 @@ torch-fl provides project-level support for:
 - PyTorch eager tensor operations and device management
 - Autograd and model training
 - `torch.compile` integration
-- Distributed collectives and DDP through `ProcessGroupFlagOS`
+- Distributed collectives, DDP, DTensor (Tensor Parallel / FSDP2) through `ProcessGroupFlagOS`
 - `torch.profiler` integration
 - FlagGems/Triton operator integration
 - Explicit CPU fallback for uncovered operations where PyTorch semantics permit
