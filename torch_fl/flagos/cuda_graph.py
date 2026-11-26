@@ -170,9 +170,9 @@ else:
             # HIP capture modes, mirroring torch.cuda.graph's capture_error_mode:
             #   global (default) / thread_local / relaxed
             mode = {
-                "global": 0,       # hipStreamCaptureModeGlobal
+                "global": 0,  # hipStreamCaptureModeGlobal
                 "thread_local": 1,  # hipStreamCaptureModeThreadLocal
-                "relaxed": 2,       # hipStreamCaptureModeRelaxed
+                "relaxed": 2,  # hipStreamCaptureModeRelaxed
             }[capture_error_mode]
             rc = self._hip.hipStreamBeginCapture(stream, mode)
             if rc != 0:
@@ -223,7 +223,9 @@ else:
     class graph:
         """Context manager capturing into a :class:`CUDAGraph`, like torch.cuda.graph."""
 
-        def __init__(self, cuda_graph: CUDAGraph, capture_error_mode: str = "global") -> None:
+        def __init__(
+            self, cuda_graph: CUDAGraph, capture_error_mode: str = "global"
+        ) -> None:
             self._graph = cuda_graph
             self._capture_error_mode = capture_error_mode
 
